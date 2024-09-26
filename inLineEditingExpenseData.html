@@ -1,0 +1,78 @@
+<!-- customTable.html -->
+<template>
+
+        <div class="slds-page-header">
+                <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                        <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-opportunity" title="opportunity">
+                        <lightning-icon icon-name="custom:custom13" title="custom13"></lightning-icon>
+                        
+                        </span>
+                        </div>
+                        <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                        <div class="slds-page-header__name-title " style="padding-top: 5px" >
+                        <h1>
+                                <span class="slds-page-header__title slds-truncate" title="Expense">Expenses({newExpList.length})</span>
+                        </h1>
+                        </div>
+                        </div>
+                        
+                        </div>
+                </div>
+                </div>
+                </div>
+                </div>
+    <div class="slds" style="border-collapse: collapse;width: 100%;border: 1px solid #d8dde6;">
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Tour Type</th>
+                    <th scope="col">Expense Type</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Approval Status</th>
+                    <th scope="col">Expense Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={newExpList} for:item="record" for:index="index">
+                    <tr key={record.Id}>
+                        <td data-label="S.No">{record.sNo}</td>
+                        <td data-label="Name"><a href={record.hrefLink} >{record.Name}</a></td>
+                        <td data-label="Tour Type">{record.Tour_Type__c}</td>
+                        <td data-label="Expense Type">{record.Expense_Item__c}</td>
+                        <td data-label="Amount">{record.Amount__c}</td>
+                        <td data-label="Approval Status">
+                            <lightning-combobox 
+                                variant="label-hidden"
+                                data-index={index}
+                                disabled={record.isDisabled}
+                                value={record.Approval_Status__c} 
+                                options={approvalStatusOptions}
+                                onchange={handleApprovalStatusChange}>
+                            </lightning-combobox>
+                        </td>
+                        <td data-label="Expense Date">{record.Date__c}</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        <template if:true={showSaveButton}>
+            <div class=" slds-modal__footer slds-p-around_small slds-align_absolute-center" >
+                <button class="slds-button slds-button_brand" onclick={handleSave}>Save</button>
+                
+            </div>
+        </template>
+    </div>
+    <template if:true={isLoading}>
+        
+        <lightning-spinner alternative-text="Loading" size="large" variant="brand" class="slds-is-fixed slds-align--absolute-center">
+
+        </lightning-spinner>
+    
+    </template>
+</template>
